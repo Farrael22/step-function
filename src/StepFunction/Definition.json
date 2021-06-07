@@ -1,0 +1,61 @@
+{
+    "Comment": "Migration Step Function",
+    "StartAt": "Get data from legacy systems",
+    "States": {
+      "Get data from legacy systems": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:483784330520:function:MigrationLambda",
+        "ResultPath": "$.GetDataResponse",
+        "Next": "Are all data already gotten?"
+      },
+      "Are all data already gotten?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.GetDataResponse.RemainingFilesCount",
+            "NumericGreaterThan": 0,
+            "Next": "Get data from legacy systems"
+          }
+        ],
+        "Default": "Create data in new structure"
+      },
+      "Create data in new structure": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:483784330520:function:MigrationLambda",
+        "ResultPath": "$.CreateDataResponse",
+        "Next": "Are all data already created?"
+      },
+      "Are all data already created?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.CreateDataResponse.RemainingFilesCount",
+            "NumericGreaterThan": 0,
+            "Next": "Create data in new structure"
+          }
+        ],
+        "Default": "Activate Data in new system"
+      },
+      "Activate Data in new system": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:483784330520:function:MigrationLambda",
+        "InputPath": "$.GlobalVariables",
+        "ResultPath": "$.ActivateDataResponse",
+        "Next": "Are all data already activated?"
+      },
+      "Are all data already activated?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.ActivateDataResponse.RemainingFilesCount",
+            "NumericGreaterThan": 0,
+            "Next": "Activate Data in new system"
+          }
+        ],
+        "Default": "Finish Step Function Execution"
+      },
+      "Finish Step Function Execution": {
+        "Type": "Succeed"
+      }
+    }
+  }
