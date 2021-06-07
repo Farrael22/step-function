@@ -1,0 +1,7 @@
+bin/
+obj/
+.lambda-test-tool/
+.vscode/
+.vs/
+.DS_Store
+packages/
