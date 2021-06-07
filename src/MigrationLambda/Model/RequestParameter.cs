@@ -4,5 +4,6 @@ namespace MigrationLambda.Models
     {
         public GlobalVariables GlobalVariables {get; set;}
         public GetDataResponse GetDataResponse {get; set;}
+        public CreateDataResponse CreateDataResponse {get; set;}
     }
 }
