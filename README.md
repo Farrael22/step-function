@@ -1,6 +1,8 @@
-# Step Function Example
+# Overview
 
-Here on this repository we have an example of Step Function which was designed to migrate a legacy system into a new structure and one Lambda showing how we handled execution timeout during the flow. 
+Here on this repository we have an example of Step Function, which was designed to migrate a legacy system into a new structure and one Lambda showing how we handled execution timeout during the flow.
+
+It was done to share with the audience of my 2021 TDC Connections presentation.
 
 In order to make it run, you have to follow some steps. 
 
